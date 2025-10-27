@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -39,7 +40,18 @@ public class Order {
     private Set<OrderItem> items = new HashSet<>();
 
     public List<Product> getProducts(){
-        return items.stream().map(x -> x.getProduct()).toList();
+        return items.stream().map(OrderItem::getProduct).toList();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
